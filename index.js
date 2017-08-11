@@ -26,6 +26,7 @@ var uuid = require('uuid');
 var humanInterval = require('human-interval');
 var warlock = require('node-redis-warlock');
 var CronTime = require('cron').CronTime;
+var moment = require('moment');
 
 //------------------------------------------------------------------------------
 // constants
@@ -519,11 +520,11 @@ Queue.prototype._computeNextRunTime = function (jobData, done) {
       try {
         //last run of the job is now if not exist
         var lastRun =
-          jobData.lastRun ? new Date(jobData.lastRun) : new Date();
+          jobData.lastRun ? moment(jobData.lastRun) : moment();
 
         //compute next date from the cron interval
         var cronTime = new CronTime(interval, timezone);
-        var nextRun = cronTime._getNextDateFrom(lastRun);
+        var nextRun = cronTime._getNextDateFrom(lastRun.tz(timezone));
 
         // Handle cronTime giving back the same date
         // for the next run time
