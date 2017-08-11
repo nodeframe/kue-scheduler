@@ -524,7 +524,7 @@ Queue.prototype._computeNextRunTime = function (jobData, done) {
 
         //compute next date from the cron interval
         var cronTime = new CronTime(interval, timezone);
-        var nextRun = cronTime._getNextDateFrom(lastRun.tz(timezone));
+        var nextRun = cronTime._getNextDateFrom(timezone ? lastRun.tz(timezone) : lastRun);
 
         // Handle cronTime giving back the same date
         // for the next run time
